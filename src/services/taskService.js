@@ -1,4 +1,5 @@
 const db = require('../database/db');
+const uuid = require('uuid');
 
 exports.findAll = (req, res, next) => {
 
@@ -6,7 +7,7 @@ exports.findAll = (req, res, next) => {
 
     db.query(query, (err, rows) => {
         if (err)
-            res.send(err);
+            return next(err, 500);
 
         console.log(rows);
 
@@ -16,4 +17,28 @@ exports.findAll = (req, res, next) => {
             tasks: rows,
         });
     });
+};
+
+exports.createTask = (req, res, next) => {
+    console.log(req.body)
+
+    if (!req.body) 
+        return next("No form data found", 404);
+
+    const values = [Math.floor(Math.random() * 100), req.body.description, new Date(), req.body.dateDelete];
+    console.log(values)
+
+    db.query(
+        "INSERT INTO TASK (id_task, description, date_insert, date_delete) VALUES(?)",
+        [values],
+        function (err, data) {
+            if (err) 
+                return next(err, 500);
+
+            res.status(201).json({
+                status: "Success",
+                message: "Task created!",
+            });
+        }
+    );
 };
