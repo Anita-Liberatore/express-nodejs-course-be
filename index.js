@@ -4,7 +4,7 @@ const app = express(); // execution of express
 
 const PORT = 4000;
 
-app.get('/', (req, res) =>
+app.get('/ping', (req, res) =>
     res.send(`Node and express server running on port ${PORT}`)
 );
 
