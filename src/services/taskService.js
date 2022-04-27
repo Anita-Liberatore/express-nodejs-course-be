@@ -25,7 +25,7 @@ exports.createTask = (req, res, next) => {
     if (!req.body) 
         return next("No form data found", 404);
 
-    const values = [Math.floor(Math.random() * 100), req.body.description, new Date(), req.body.dateDelete];
+    const values = [Math.floor(Math.random() * 100), req.body.description, moment().format(), req.body.dateDelete];
     console.log(values)
 
     db.query(

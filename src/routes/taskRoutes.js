@@ -5,11 +5,7 @@ const jsonParser = bodyParser.json()
 
 const routes = (app) => {
     app.route('/task')
-        .get((req,res,next) => {
-            console.log(`Request from: ${req.originalUrl}`)
-            console.log(`Request type: ${req.method}`)
-            next();
-        }, tasksService.findAll)
+        .get(tasksService.findAll)
         
         .post(jsonParser,tasksService.createTask);
 

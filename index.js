@@ -1,8 +1,10 @@
 const express = require('express');
 const routes = require('./src/routes/taskRoutes');
+const logger = require('./src/middleware/logger')
 const app = express(); // execution of express
 
 const PORT = 4000;
+app.use(logger);
 
 routes(app);
 
