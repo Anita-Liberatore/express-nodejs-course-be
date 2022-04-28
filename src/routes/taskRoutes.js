@@ -7,14 +7,17 @@ const routes = (app) => {
     app.route('/task')
         .get(tasksService.findAll)
         
-        .post(jsonParser,tasksService.createTask);
+        .post(jsonParser,tasksService.createTask)
 
-    app.route('task/:id')
+
+    app.route('/task/:id')
+        .get(tasksService.findAll)
+        
         .put((req, res) =>
             res.send('PUT request'))
+
         
-        .delete((req, res) =>
-            res.send('DELETE request'));
+        .delete(tasksService.deleteTask);
 }
 
 module.exports = routes;

@@ -1,5 +1,5 @@
 const db = require('../database/db');
-const uuid = require('uuid');
+const moment = require('moment')
 
 exports.findAll = (req, res, next) => {
 
@@ -22,7 +22,7 @@ exports.findAll = (req, res, next) => {
 exports.createTask = (req, res, next) => {
     console.log(req.body)
 
-    if (!req.body) 
+    if (!req.body)
         return next("No form data found", 404);
 
     const values = [Math.floor(Math.random() * 100), req.body.description, moment().format(), req.body.dateDelete];
@@ -31,8 +31,8 @@ exports.createTask = (req, res, next) => {
     db.query(
         "INSERT INTO TASK (id_task, description, date_insert, date_delete) VALUES(?)",
         [values],
-        function (err, data) {
-            if (err) 
+        function (err) {
+            if (err)
                 return next(err, 500);
 
             res.status(201).json({
@@ -41,4 +41,21 @@ exports.createTask = (req, res, next) => {
             });
         }
     );
+};
+
+exports.deleteTask = (req, res, next) => {
+
+    db.query("DELETE FROM TASK WHERE id_task = ?", req.params.id, function (err) {
+        console.log(req.params.id)
+        if (err)
+            return next(err, 500);
+
+            res.json({
+                status: "Success",
+                id: req.params.id,
+                message: "Task deleted!",
+            });
+
+        }
+    )
 };
